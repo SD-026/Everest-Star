@@ -7,8 +7,8 @@ const Navbar = () => {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between">
           <div className="flex space-x-7">
-            <Link to="/" className="flex items-center py-4 px-2">
-            <img src={logo} alt="" className='size-6 object-contain' />
+            <Link to="/" className="flex items-center gap-x-1.5 py-4 px-2">
+            <img src={logo} alt="" className='size-8  object-contain' />
               <span className="font-semibold text-gray-500 text-lg max-md:text-sm " >
                 Everestar Employee Registration System</span>
             </Link>
