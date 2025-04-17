@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import logo from '../assets/everesrar.jpg'
 
 const Navbar = () => {
   return (
@@ -7,7 +8,9 @@ const Navbar = () => {
         <div className="flex justify-between">
           <div className="flex space-x-7">
             <Link to="/" className="flex items-center py-4 px-2">
-              <span className="font-semibold text-gray-500 text-lg max-md:text-sm " >Everest Employee Registration System</span>
+            <img src={logo} alt="" className='size-6 object-contain' />
+              <span className="font-semibold text-gray-500 text-lg max-md:text-sm " >
+                Everestar Employee Registration System</span>
             </Link>
           </div>
           <div className="flex items-center space-x-3">

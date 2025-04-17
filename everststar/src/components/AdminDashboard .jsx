@@ -36,35 +36,46 @@ const AdminDashboard = () => {
     setSelectedEmployee(null);
   };
 
-  const csvData = employees.map(emp => ({
-    CNIC: emp.cnic,
-    'Employee #': emp.employeeNumber,
-    'Full Name': emp.fullName,
-    Email: emp.email,
-    Mobile: emp.mobile,
-    Designation: emp.designation,
-    'Date of Birth': emp.dob,
-    'Relation with Emergency Contact': emp.relationWithEmergencyContact,
+  const csvData = employees.map(emp => {
+    const childrenDetails = emp.children?.map(child =>
+      `${child.name || 'N/A'} (${child.gender || 'N/A'}, ${child.dob || 'N/A'}, ${child.relation || 'N/A'})`
+    ) || [];
   
-    'Father Name': emp.father?.name || '',
-    'Father CNIC': emp.father?.cnic || '',
-    'Father DOB': emp.father?.dob || '',
+    return {
+      CNIC: emp.cnic,
+      'Employee #': emp.employeeNumber,
+      'Full Name': emp.fullName,
+      Email: emp.email,
+      Mobile: emp.mobile,
+      Designation: emp.designation,
+      'Date of Birth': emp.dob,
+      'Relation with Emergency Contact': emp.relationWithEmergencyContact,
   
-    'Mother Name': emp.mother?.name || '',
-    'Mother CNIC': emp.mother?.cnic || '',
-    'Mother DOB': emp.mother?.dob || '',
+      'Father Name': emp.father?.name || '',
+      'Father CNIC': emp.father?.cnic || '',
+      'Father DOB': emp.father?.dob || '',
   
-    'Spouse Name': emp.spouse?.name || '',
-    'Spouse CNIC': emp.spouse?.cnic || '',
-    'Spouse DOB': emp.spouse?.dob || '',
+      'Mother Name': emp.mother?.name || '',
+      'Mother CNIC': emp.mother?.cnic || '',
+      'Mother DOB': emp.mother?.dob || '',
   
-    'Postal Address': `${emp.address?.house || ''}, ${emp.address?.street || ''}, ${emp.address?.society}, ${emp.address?.district}`,
+      'Spouse Name': emp.spouse?.name || '',
+      'Spouse CNIC': emp.spouse?.cnic || '',
+      'Spouse DOB': emp.spouse?.dob || '',
   
-    'Children Count': emp.childrenCount,
-    'Children Details': emp.children?.map(child =>
-      `${child.name} (${child.gender}, ${child.dob}, ${child.relation})`
-    ).join('; ')  // join to make it a single string in the Excel cell
-  }));
+      'Postal Address': `${emp.address?.house || ''}, ${emp.address?.street || ''}, ${emp.address?.society || ''}, ${emp.address?.district || ''}`,
+  
+      'Children Count': emp.childrenCount,
+      // remove this ↓ line
+      // 'Children Details': emp.children?.map(...)...
+  
+      // Spread children into their own columns
+      ...childrenDetails.reduce((acc, detail, index) => {
+        acc[`Child ${index + 1}`] = detail;
+        return acc;
+      }, {})
+    };
+  });
   
 
   return (
