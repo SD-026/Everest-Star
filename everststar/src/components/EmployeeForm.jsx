@@ -23,20 +23,24 @@ const EmployeeForm = () => {
     },
     father: {
       name: '',
-      dob: '',
-      cnic: '',
+      cnic:'',
       isDeceased: false
     },
+    fatherdob:'',
+    
+    motherdob:'',
+    
+    spousedob:'',
+    
     mother: {
       name: '',
-      dob: '',
-      cnic: '',
+      cnic:'',
       isDeceased: false
     },
     spouse: {
       name: '',
-      dob: '',
-      cnic: '',
+      cnic:'',
+    
       isMarried: false
     },
     children: [],
@@ -63,15 +67,15 @@ const EmployeeForm = () => {
       // Clear fields when disabled
       if (parent === 'father' && checked) {
         newData.father.name = 'Deceased';
-        newData.father.dob = '';
+        newData.fatherdob = '';
         newData.father.cnic = '';
       } else if (parent === 'mother' && checked) {
         newData.mother.name = 'Deceased';
-        newData.mother.dob = '';
+        newData.motherdob = '';
         newData.mother.cnic = '';
       } else if (parent === 'spouse' && !checked) {
         newData.spouse.name = 'Unmarried';
-        newData.spouse.dob = '';
+        newData.spousedob = '';
         newData.spouse.cnic = '';
         newData.children = [];
         setChildrenCount(0);
@@ -163,6 +167,7 @@ const EmployeeForm = () => {
 
   // Handle date input
   const handleDateChange = (e, field) => {
+    console.log(e.target.value, field)
     const { value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -310,22 +315,19 @@ const EmployeeForm = () => {
         } : formData.spouse
       };
 
-      const response = await axios.post('https://everestar.onrender.com/api/user/submit', submissionData);
+      const response = await axios.post('http://localhost:3001/api/user/submit', submissionData);
       toast.success(editing ? 'Employee updated successfully!' : 'Employee added successfully!');
       setEditing(true);
     } catch (err) {
     //   alert(`Error: ${err.response?.data?.error || err.message}`);
     console.log(err)
-    }finally{
-      setFormData('')
-
     }
   };
 
   // Search employee by CNIC
   const searchEmployee = async () => {
     try {
-      const response = await axios.get(`https://everestar.onrender.com/api/user/${formData.cnic}`);
+      const response = await axios.get(`http://localhost:3001/api/user/${formData.cnic}`);
       setFormData(response.data);
     //   console.log(response.data)
       setChildrenCount(response.data.children.length);
@@ -335,6 +337,8 @@ const EmployeeForm = () => {
       setEditing(false);
     }
   };
+
+  console.log(formData)
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
@@ -571,12 +575,15 @@ const EmployeeForm = () => {
               <label className="block text-sm font-medium text-gray-700 mb-1">Father Date of Birth (As Per CNIC)</label>
               <input
                 type="date"
-                name="father.dob"
-                value={formData?.father?.dob}
-                onChange={(e) => handleDateChange(e, 'father.dob')}
+                name="fatherdob"
+                // requ
+                max={( 'yyyy-MM-dd')}
+                value={formData.father.dob?formData.father.dob:formData.fatherdob}
+                onChange={(e) => handleDateChange(e, 'fatherdob')}
                 className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                   formData.father.isDeceased ? 'bg-gray-100 cursor-not-allowed' : ''
-                }`}
+                }`
+              }
                 disabled={formData.father.isDeceased}
               />
             </div>
@@ -642,9 +649,9 @@ const EmployeeForm = () => {
               <label className="block text-sm font-medium text-gray-700 mb-1">Mother Date of Birth (As Per CNIC)</label>
               <input
                 type="date"
-                name="mother.dob"
-                value={formData.mother.dob}
-                onChange={(e) => handleDateChange(e, 'mother.dob')}
+                name="motherdob"
+                value={formData.mother.dob?formData.mother.dob:formData.motherdob}
+                onChange={(e) => handleDateChange(e, 'motherdob')}
                 className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                   formData.mother.isDeceased ? 'bg-gray-100 cursor-not-allowed' : ''
                 }`}
@@ -713,9 +720,9 @@ const EmployeeForm = () => {
               <label className="block text-sm font-medium text-gray-700 mb-1">Spouse Date of Birth (As Per CNIC)</label>
               <input
                 type="date"
-                name="spouse.dob"
-                value={formData.spouse.dob}
-                onChange={(e) => handleDateChange(e, 'spouse.dob')}
+                name="spousedob"
+                value={formData.spouse.dob?formData.spouse.dob:formData.spousedob}
+                onChange={(e) => handleDateChange(e, 'spousedob')}
                 className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                   !formData.spouse.isMarried ? 'bg-gray-100 cursor-not-allowed' : ''
                 }`}
@@ -847,6 +854,9 @@ const EmployeeForm = () => {
           >
             {editing ? 'Update' : 'Submit'}
           </button>
+          <div>
+            {/* {formData.father} */}
+          </div>
         </div>
       </form>
     </div>

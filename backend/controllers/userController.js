@@ -1,18 +1,127 @@
 const User = require('../models/User');
 
 exports.submitUserData = async (req, res) => {
-  try {
+  const {
+    cnic,
+    employeeNumber,
+    email,
+    mobile,
+    emergencyContact,
+    emergencyRelation,
+    fullName,
+    designation,
+    dob,
+    address,
+    father,
+    mother,
+    spouse,
+    children,
+    gender,
+    fatherdob,
+    
+    motherdob,
+    // mothercnic,
+    spousedob,
+   
+
+  } = req.body;
+  
 
     const existingUser = await User.findOne({ cnic: req.body.cnic });
     // console.log(existingUser)
-    
+    try{
     if (existingUser) {
-      await User.findOneAndUpdate({ cnic: req.body.cnic }, req.body);
+      await User.findOneAndUpdate({ cnic: req.body.cnic }, 
+        {
+          cnic,
+          employeeNumber,
+          email,
+          mobile,
+          emergencyContact,
+          emergencyRelation,
+          fullName,
+          designation,
+          dob,
+          address: {
+            house: address.house || '',
+            street: address.street || '',
+            sector: address.sector || '',
+            society: address.society || '',
+            district: address.district || ''
+          },
+          father: {
+            name: father.name || '',
+            dob: fatherdob || '',
+            cnic: father.cnic|| '',
+            isDeceased: father.isDeceased || false
+          },
+          mother: {
+            name: mother.name || '',
+            dob: motherdob || '',
+            cnic: mother.cnic || '',
+            isDeceased: mother.isDeceased || false
+          },
+          spouse: {
+            name: spouse.name || '',
+            dob: spousedob || '',
+            cnic: spouse.cnic || '',
+            isMarried: spouse.isMarried || false
+          },
+          children: children || [],
+          gender
+        }
+
+
+      );
+
       res.status(200).json({ message: 'User is already registered' });
     } else {
-      const newUser = User.create(req.body);
-    //   await newUser.save();
-    //   console.log(newUser)
+
+
+     
+    
+     
+        // Create a new user instance and set the values from req.body
+        const newUser =  User.create({
+          cnic,
+          employeeNumber,
+          email,
+          mobile,
+          emergencyContact,
+          emergencyRelation,
+          fullName,
+          designation,
+          dob,
+          address: {
+            house: address.house || '',
+            street: address.street || '',
+            sector: address.sector || '',
+            society: address.society || '',
+            district: address.district || ''
+          },
+          father: {
+            name: father.name || '',
+            dob: fatherdob || '',
+            cnic: father.cnic|| '',
+            isDeceased: father.isDeceased || false
+          },
+          mother: {
+            name: mother.name || '',
+            dob: motherdob || '',
+            cnic: mother.cnic || '',
+            isDeceased: mother.isDeceased || false
+          },
+          spouse: {
+            name: spouse.name || '',
+            dob: spousedob || '',
+            cnic: spouse.cnic || '',
+            isMarried: spouse.isMarried || false
+          },
+          children: children || [],
+          gender
+        });
+    
+  
       res.status(200).json({ message: 'User data saved' });
     }
   } catch (error) {
