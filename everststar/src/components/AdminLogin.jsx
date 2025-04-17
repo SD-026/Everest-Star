@@ -32,7 +32,7 @@ const AdminLogin = () => {
     }
 
     try {
-      const res = await axios.post('http://localhost:3001/api/admin/login', {
+      const res = await axios.post('https://everest-star.onrender.com/api/admin/login', {
         cnic,
         password,
       });

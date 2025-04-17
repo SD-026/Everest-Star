@@ -13,7 +13,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/admin/users');
+        const response = await axios.get('https://everest-star.onrender.com/api/admin/users');
         
         // console.log(response.data)
         setEmployees(response.data);
