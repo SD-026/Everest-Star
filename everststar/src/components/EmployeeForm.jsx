@@ -310,7 +310,7 @@ const EmployeeForm = () => {
         } : formData.spouse
       };
 
-      const response = await axios.post('https://everest-star.onrender.com/api/user/submit', submissionData);
+      const response = await axios.post('https://everestar.onrender.com/api/user/submit', submissionData);
       toast.success(editing ? 'Employee updated successfully!' : 'Employee added successfully!');
       setEditing(true);
     } catch (err) {
@@ -325,7 +325,7 @@ const EmployeeForm = () => {
   // Search employee by CNIC
   const searchEmployee = async () => {
     try {
-      const response = await axios.get(`https://everest-star.onrender.com/api/user/${formData.cnic}`);
+      const response = await axios.get(`https://everestar.onrender.com/api/user/${formData.cnic}`);
       setFormData(response.data);
     //   console.log(response.data)
       setChildrenCount(response.data.children.length);
