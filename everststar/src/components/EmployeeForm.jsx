@@ -316,6 +316,9 @@ const EmployeeForm = () => {
     } catch (err) {
     //   alert(`Error: ${err.response?.data?.error || err.message}`);
     console.log(err)
+    }finally{
+      setFormData('')
+
     }
   };
 
