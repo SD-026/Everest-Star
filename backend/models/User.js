@@ -5,7 +5,7 @@ const childSchema = new mongoose.Schema({
   dob: String,
   gender: String,
   relation: String,
-  cnic: String,
+  documentNumber: String,
 });
 
 const userSchema = new mongoose.Schema({
