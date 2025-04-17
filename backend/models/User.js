@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
   mobile: String,
   emergencyContact: String,
-  relationWithEmergencyContact: String,
+  emergencyRelation: String,
   fullName: String,
   designation: String,
   dob: String,
