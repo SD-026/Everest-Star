@@ -38,7 +38,7 @@ const AdminDashboard = () => {
 
   const csvData = employees.map(emp => {
     const childrenDetails = emp.children?.map(child =>
-      `${child.name || 'N/A'} (${child.gender || 'N/A'}, ${child.dob || 'N/A'}, ${child.relation || 'N/A'},${child.cnic || 'N/A'},)`
+      `${child.name || 'N/A'} (${child.gender || 'N/A'}, ${child.dob || 'N/A'}, ${child.relation || 'N/A'},${child.documentNumber || 'N/A'},)`
     ) || [];
   
     return {
@@ -49,7 +49,7 @@ const AdminDashboard = () => {
       Mobile: emp.mobile,
       Designation: emp.designation,
       'Date of Birth': emp.dob,
-      'Relation with Emergency Contact': emp.relationWithEmergencyContact,
+      'Relation with Emergency Contact': emp.emergencyRelation,
   
       'Father Name': emp.father?.name || '',
       'Father CNIC': emp.father?.cnic || '',
